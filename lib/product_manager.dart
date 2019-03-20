@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './products.dart';
+import './firebase_helpers/readImageData.dart';
 
 class ProductManager extends StatefulWidget {
   final Map<String, String> startingProduct;
@@ -18,6 +19,7 @@ class ProductManager extends StatefulWidget {
 
 class _ProductManagerState extends State<ProductManager> {
   List<Map<String, String>> _products = [];
+  Map<String, String> _images;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _ProductManagerState extends State<ProductManager> {
   }
 
   void _addProduct(Map<String, String> product) {
+    print(_images);
     setState(() {
       _products.add(product);
     });
@@ -50,6 +53,7 @@ class _ProductManagerState extends State<ProductManager> {
 
   @override
   Widget build(BuildContext context) {
+    _images = ReadImageDataFromFirestore.readData();
     print('[ProductManager State] build()');
     return Stack(children: <Widget>[
       Hero(

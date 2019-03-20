@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
 
   LoginScreen({this.analytics, this.observer});
 
-  Future<void> _testSetCurrentScreen() async {
+  Future<void> _setAnalyticsCurrentScreen() async {
     await analytics.setCurrentScreen(
       screenName: 'Login Screen',
       screenClassOverride: 'Login',
@@ -22,6 +22,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _setAnalyticsCurrentScreen();
     return Scaffold(
         appBar: AppBar(title: Text('Login Screen')),
         body: Container(
@@ -53,11 +54,10 @@ class LoginScreen extends StatelessWidget {
                     child: Text('LOGIN'),
                     color: Theme.of(context).primaryColor,
                     onPressed: () {
-                      _testSetCurrentScreen();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => MainPage()));
+                              builder: (BuildContext context) => MainPage(analytics: analytics, observer: observer,)));
                     }),
               ]),
         ));
