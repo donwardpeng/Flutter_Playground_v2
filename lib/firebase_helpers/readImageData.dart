@@ -12,10 +12,9 @@ class ReadImageDataFromFirestore {
         .listen((data) {
       data.documents
           .forEach((doc) => (_cards.putIfAbsent(doc["Name"], ()=> doc["Image"])));
-      print ("Cards = " + _cards.toString());
+      print ("[ReadImageDataFromFirestore] Cards = " + _cards.toString());
       return _cards;
     }, onDone: () {
-      print('Done called');
     });
   }
 }

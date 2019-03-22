@@ -23,7 +23,7 @@ MainPage({this.analytics, this.observer});
   @override
   Widget build(BuildContext context) {
     _setAnalyticsCurrentScreen();
-    ReadImageDataFromFirestore.readData();
+    // ReadImageDataFromFirestore.readData();
     return WillPopScope(
         onWillPop: () {
           Navigator.pop(context, false);

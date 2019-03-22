@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import './products.dart';
 import './firebase_helpers/readImageData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class ProductManager extends StatefulWidget {
   final Map<String, String> startingProduct;
@@ -21,25 +23,11 @@ class _ProductManagerState extends State<ProductManager> {
   List<Map<String, String>> _products = [];
   Map<String, String> _images;
 
-  @override
-  void initState() {
-    print('[ProductManager State] initState()');
-    if (widget.startingProduct != null) {
-      _products.add(widget.startingProduct);
-    }
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(ProductManager oldWidget) {
-    print('[ProductManager State] didUpdateWidget()');
-    super.didUpdateWidget(oldWidget);
-  }
-
   void _addProduct(Map<String, String> product) {
-    print(_images);
+    print('[ProductManagerState:_addProduct] _images = ' + _images.toString());
     setState(() {
-      _products.add(product);
+      // _products.add(product);
+      _products.add({'title': 'Windsor-Essex DevFest', 'image': _images['Windsor-Essex DevFest']});
     });
     print(_products);
   }
@@ -52,8 +40,27 @@ class _ProductManagerState extends State<ProductManager> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // _images = ReadImageDataFromFirestore.readData();
+     Map<String, String> _cards = new Map<String, String>();
+    Firestore.instance
+        .collection('CardImages')
+        // .where("topic", isEqualTo: "flutter")
+        .snapshots()
+        .listen((data) {
+      data.documents
+          .forEach((doc) => (_cards.putIfAbsent(doc["Name"], ()=> doc["Image"])));
+      print ("[ReadImageDataFromFirestore] Cards = " + _cards.toString());
+      _images = _cards;
+    }, onDone: () {
+    });
+    print('[ProductManagerState:initState] _images = ' + _images.toString());
+
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _images = ReadImageDataFromFirestore.readData();
     print('[ProductManager State] build()');
     return Stack(children: <Widget>[
       Hero(
@@ -73,6 +80,8 @@ class _ProductManagerState extends State<ProductManager> {
           right: 16.0,
           child: FloatingActionButton(
             onPressed: () {
+              print('[ProductManagerState:build] _images = ' +
+                  _images.toString());
               _addProduct({'title': 'Chocolate', 'image': 'assets/food.jpg'});
             },
             tooltip: 'Increment',

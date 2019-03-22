@@ -31,7 +31,8 @@ class Products extends StatelessWidget {
             children: <Widget>[
               Hero(
                 tag: 'hero_product_details' + index.toString() ,
-                child: Image.asset(products[index]['image']),
+                // child: Image.asset(products[index]['image']),
+                child: Image.network(products[index]['image']),
               ),
               Text(products[index]['title']),
             ],
