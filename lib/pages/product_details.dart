@@ -20,7 +20,7 @@ class ProductDetails extends StatelessWidget {
                   tag: 'hero_product_details' + index.toString(),
                   child: ClipRRect(
                     borderRadius: new BorderRadius.circular(128.0),
-                    child: Image.asset(imageUrl),
+                    child: Image.network(imageUrl),
                   )),
               Text(title),
               OutlineButton(

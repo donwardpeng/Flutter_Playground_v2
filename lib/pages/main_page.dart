@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../product_manager.dart';
 import '../firebase_helpers/readImageData.dart';
@@ -9,6 +10,7 @@ import '../firebase_helpers/readImageData.dart';
 class MainPage extends StatelessWidget {
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 MainPage({this.analytics, this.observer});
 
@@ -20,9 +22,30 @@ MainPage({this.analytics, this.observer});
     print('Analytics: setCurrentScreen done');
   }
 
+ void _setupPushNotifications(){
+    _firebaseMessaging.requestNotificationPermissions();
+    _firebaseMessaging.getToken().then((token) {
+      print("### token for phone: ${token}");
+    });
+    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+      _onPushNotification(message.toString());
+    },
+    onResume: (Map<String, dynamic> message) {
+      _onPushNotification(message.toString());
+    },
+    onLaunch: (Map<String, dynamic> message) {
+      _onPushNotification(message.toString());
+    });
+ }
+
+void _onPushNotification(String message){
+  print ('[MainPage]<onPushNotification> - method called');
+}
+
   @override
   Widget build(BuildContext context) {
     _setAnalyticsCurrentScreen();
+    _setupPushNotifications();
     // ReadImageDataFromFirestore.readData();
     return WillPopScope(
         onWillPop: () {
