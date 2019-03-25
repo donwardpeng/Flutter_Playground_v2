@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import './products.dart';
-import './firebase_helpers/readImageData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductManager extends StatefulWidget {

@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
       // debugShowMaterialGrid: true,
       theme: ThemeData(
           brightness: Brightness.light,
-          primarySwatch: Colors.deepOrange,
-          accentColor: Colors.deepPurple),
+          primarySwatch: Colors.blue,
+          accentColor: Colors.indigo),
       home: LoginScreen(analytics: analytics, observer: observer),
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),

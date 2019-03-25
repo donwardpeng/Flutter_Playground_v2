@@ -4,7 +4,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'dart:async';
 
 import './main_page.dart';
-import '../password_input.dart';
+import 'package:flutter_playground_v2/widgets/password_input.dart';
 
 class LoginScreen extends StatelessWidget {
   final FirebaseAnalytics analytics;

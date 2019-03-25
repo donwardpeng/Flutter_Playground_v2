@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../product_manager.dart';
-import '../firebase_helpers/readImageData.dart';
 
 class MainPage extends StatelessWidget {
   final FirebaseAnalytics analytics;
@@ -25,14 +24,20 @@ MainPage({this.analytics, this.observer});
  void _setupPushNotifications(){
     _firebaseMessaging.requestNotificationPermissions();
     _firebaseMessaging.getToken().then((token) {
-      print("### token for phone: ${token}");
+      print("### token for phone:" +  token);
     });
-    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+    _firebaseMessaging.configure(
+    //callback when the app is in the foreground and the push notification is
+    //received
+    onMessage: (Map<String, dynamic> message) {
       _onPushNotification(message.toString());
     },
+    //callback when the app is backgrounded and the app will be brought to the front
+    //when the push is tapped
     onResume: (Map<String, dynamic> message) {
       _onPushNotification(message.toString());
     },
+    //callback when the app is not active
     onLaunch: (Map<String, dynamic> message) {
       _onPushNotification(message.toString());
     });
